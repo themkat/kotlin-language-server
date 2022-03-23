@@ -1,10 +1,14 @@
 package org.javacs.kt.util
 
 import org.javacs.kt.LOG
+import org.javacs.kt.util.parseURI
 import java.io.PrintStream
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.concurrent.CompletableFuture
+import java.net.URL
+import java.net.URLEncoder
+import java.nio.file.Files
 
 fun execAndReadStdout(shellCommand: String, directory: Path): String {
     val process = Runtime.getRuntime().exec(shellCommand, null, directory.toFile())
@@ -13,7 +17,7 @@ fun execAndReadStdout(shellCommand: String, directory: Path): String {
 }
 
 fun execAndReadStdoutAndStderr(shellCommand: String, directory: Path): Pair<String, String> {
-    val process = Runtime.getRuntime().exec(shellCommand, null, directory.toFile())
+    val process = Runtime.getRuntime().exec(shellCommand, null, null)
     val stdout = process.inputStream
     val stderr = process.errorStream
     var output = ""
