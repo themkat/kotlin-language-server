@@ -17,7 +17,12 @@ fun execAndReadStdout(shellCommand: String, directory: Path): String {
 }
 
 fun execAndReadStdoutAndStderr(shellCommand: String, directory: Path): Pair<String, String> {
-    val process = Runtime.getRuntime().exec(shellCommand, null, null)
+    val process = runCatching {
+		Runtime.getRuntime().exec(shellCommand, null, directory.toFile())
+	}.getOrElse {
+		LOG.info("Failed to run command in directory $directory - Defaulting to project root")
+		Runtime.getRuntime().exec(shellCommand, null, null)
+	}
     val stdout = process.inputStream
     val stderr = process.errorStream
     var output = ""
