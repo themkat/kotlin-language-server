@@ -142,10 +142,10 @@ class KotlinWorkspaceService(
         LOG.info("Updated configuration: {}", settings)
     }
 
-    override fun symbol(params: WorkspaceSymbolParams): CompletableFuture<List<SymbolInformation>> {
+    override fun symbol(params: WorkspaceSymbolParams): CompletableFuture<Either<List<SymbolInformation>, List<WorkspaceSymbol>>> {
         val result = workspaceSymbols(params.query, sp)
 
-        return CompletableFuture.completedFuture(result)
+        return CompletableFuture.completedFuture(Either.forLeft(result))
     }
 
     override fun didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams) {

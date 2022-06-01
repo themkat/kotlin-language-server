@@ -10,7 +10,7 @@ import org.junit.Test
 
 class WorkspaceSymbolsTest : SingleFileTestFixture("symbols", "DocumentSymbols.kt") {
     @Test fun `find symbols in OtherFileSymbols`() {
-        val found = languageServer.workspaceService.symbol(WorkspaceSymbolParams("")).get()
+        val found = languageServer.workspaceService.symbol(WorkspaceSymbolParams("")).get().left
         val byKind = found.groupBy({ it.kind }, { it.name })
         val all = found.map { it.name }.toList()
 
