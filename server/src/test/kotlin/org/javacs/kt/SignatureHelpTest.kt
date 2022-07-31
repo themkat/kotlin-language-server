@@ -53,4 +53,14 @@ class SignatureHelpTest : SingleFileTestFixture("signatureHelp", "SignatureHelp.
 
         assertThat(help.signatures[help.activeSignature].label, equalTo("fun oneOrTwoArgs(first: String, second: String): Unit"))
     }
+
+    @Test fun `provide signature help for a Kotlin SDK function`() {
+        val help = languageServer.textDocumentService.signatureHelp(signatureHelpParams(file, 54, 10)).get()!!
+
+        assertThat(help.signatures, hasSize(3))
+        assertThat(help.activeParameter, equalTo(1))
+        assertThat(help.activeSignature, equalTo(-1))
+        assertThat(help.signatures.map { it.label }, hasItems("fun <T> listOf(vararg elements: T): List<T>", "inline fun <T> listOf(): List<T>", "fun <T> listOf(element: T): List<T>"))
+        assertThat(help.signatures.map { it.documentation.left }, hasItems("Returns a new read-only list of given elements.", "Returns an empty read-only list.", "Returns an immutable list containing only the specified object element."))
+    }
 }

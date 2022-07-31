@@ -46,3 +46,11 @@ private class Constructor(bar: String) {
      */
     constructor(bar: Int): this(bar.toString())
 }
+
+
+// TODO: testcase for Kotlin SDK and JDK
+private class Various {
+    fun myFun() {
+        listOf(1, 2, 3)
+    }
+}
